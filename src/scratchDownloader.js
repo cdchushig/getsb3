@@ -1,13 +1,16 @@
 const ASSET_SERVER = 'https://cdn.assets.scratch.mit.edu/';
 const PROJECT_SERVER = 'https://cdn.projects.scratch.mit.edu/';
 
+import VirtualMachine from 'scratch-vm';
+import ScratchStorage from 'scratch-storage';
+
 const collecteyData = {assets: {}};
     
 /**
  * @param {Asset} asset - calculate a URL for this asset.
  * @returns {string} a URL to download a project file.
  */
-const getProjectUrl = function (asset) {
+function getProjectUrl(asset) {
     const assetIdParts = asset.assetId.split('.');
     const assetUrlParts = [PROJECT_SERVER, 'internalapi/project/', assetIdParts[0], '/get/'];
     if (assetIdParts[1]) {
@@ -20,7 +23,7 @@ const getProjectUrl = function (asset) {
  * @param {Asset} asset - calculate a URL for this asset.
  * @returns {string} a URL to download a project asset (PNG, WAV, etc.)
  */
-const getAssetUrl = function (asset) {
+function getAssetUrl(asset) {
     const assetUrlParts = [
         ASSET_SERVER,
         'internalapi/asset/',
@@ -37,7 +40,7 @@ const getAssetUrl = function (asset) {
  * @param {*} projectId used for filename
  * @param {*} projectJson json associated to scratch project
  */
-const savetoZip = function (projectId, projectJson) {
+function savetoZip(projectId, projectJson) {
     const zip = new JSZip();
     zip.file('project.json', projectJson);
     
@@ -54,16 +57,22 @@ const savetoZip = function (projectId, projectJson) {
  * 
  * @param {*} projectId id scratch project
  */
-const getJsonProject = function (projectId) {
-    const vm = new window.NotVirtualMachine();
+function getJsonProject(projectId) {
+    // const vm = new window.NotVirtualMachine();
+    // const storage = new ScratchStorage();
+
+    const vm = new VirtualMachine();
+    // Scratch.vm = vm;
     const storage = new ScratchStorage();
+
+
     const AssetType = storage.AssetType;
     storage.addWebStore([AssetType.Project], getProjectUrl);
     storage.addWebStore([AssetType.ImageVector, AssetType.ImageBitmap, AssetType.Sound], getAssetUrl);
     vm.attachStorage(storage);
 
     return new Promise((resolve, reject) => {
-        storage.load(storage.AssetType.Project, projectId) // load project from project server (e.g. projects.scratch.mit.edu)
+        storage.load(storage.AssetType.Project, projectId)
         .then(projectAsset => {
             return vm.loadProject(projectAsset.data);
         })
@@ -83,4 +92,4 @@ const getJsonProject = function (projectId) {
     })  
 };
 
-module.exports = getJsonProject;
+module.exports = {getJsonProject};
