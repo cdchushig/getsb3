@@ -21,6 +21,8 @@
     "debug": "^4.1.1",
     "mocha": "^7.1.2",
     "nodemon": "^2.0.3",
+    "scratch-storage": "^1.3.3",
+    "scratch-vm": "^0.2.0-prerelease.20200512204241",
     "supertest": "^4.0.2"
   },
   "babel": {
