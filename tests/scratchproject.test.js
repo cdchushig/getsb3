@@ -17,7 +17,7 @@ describe('ScratchProject API', () => {
         expect(response.body).to.be.an.instanceof(Array);
     })
 
-    it('GET /api/v1/projects/:idproject returns a json of a specific scratch project', async() => {
+    it('GET /api/v1/projects/:projectid returns a json of a specific scratch project', async() => {
         let projectid = 1111
         const response = await request(server).get('/api/v1/projects/1111')
         expect(response.status).to.equal(200)
