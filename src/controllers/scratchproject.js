@@ -9,7 +9,8 @@ class ScratchProjectController {
   async get(req, res) {
     try {
       let projectId = req.params.projectid;
-      const projectJson = await getJsonProject(projectId.toString());  
+      const projectJson = await getJsonProject(projectId.toString()); 
+      res.setHeader('Content-Type', 'application/json')
       res.status(200).send(projectJson);
     } catch (err) {
       res.status(400).send(err.message);

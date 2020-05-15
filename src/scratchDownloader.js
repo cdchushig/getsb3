@@ -53,20 +53,20 @@ function getJsonProject(projectId) {
     storage.addWebStore([AssetType.ImageVector, AssetType.ImageBitmap, AssetType.Sound], getAssetUrl);
     vm.attachStorage(storage);
 
-    return new Promise((resolve, reject) => {
-        storage.load(storage.AssetType.Project, projectId)
+    // return new Promise((resolve, reject) => {
+    return storage.load(storage.AssetType.Project, projectId)
         .then(projectAsset => {
             return vm.loadProject(projectAsset.data);
         })
         .then(() => {
             const project_json = vm.toJSON(); 
-            return resolve(project_json);
+            return project_json;
         })
         .catch((err) => {
             reject(Error(err));
             return;
-        })
-    })  
-};
+    })
+      
+}
 
 module.exports = {getJsonProject};
