@@ -4,6 +4,7 @@ import ScratchProjectController from '../controllers/scratchproject';
 const router = express.Router();
 const scratchprojectController = new ScratchProjectController();
 
-router.get('/api/v1/projects/:projectid', (req, res) => scratchprojectController.get(req, res));
+router.get('/', (req, res) => res.send('Bye!'));
+router.get('/:projectid', (req, res) => scratchprojectController.get(req, res));
 
-module.exports = router;
+export default router;

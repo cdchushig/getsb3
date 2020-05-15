@@ -2,15 +2,15 @@ import {getJsonProject} from '../scratchDownloader.js';
 
 class ScratchProjectController {
 
-  constructor(projectid) {
-    this.projectid = projectid;
+  constructor() {
+    this.projectid = 1;
   }
 
   async get(req, res) {
     try {
       let projectId = req.params.projectid;
       const projectJson = await getJsonProject(projectId.toString());  
-      res.send(projectJson);
+      res.status(200).send(projectJson);
     } catch (err) {
       res.status(400).send(err.message);
     }

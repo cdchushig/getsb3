@@ -3,7 +3,7 @@ import scratchprojectRoute from './scratchproject';
 
 const router = express.Router();
 
-router.use('/api/v1/projects', scratchprojectRoute);
-router.get('/', (req, res) => res.send('Hello World!'));
+router.use('/api', scratchprojectRoute);
+router.get('/', (req, res) => res.send('Hello World2!'));
 
 export default router;
