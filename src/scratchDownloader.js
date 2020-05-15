@@ -6,10 +6,7 @@ import ScratchStorage from 'scratch-storage';
 
 const collecteyData = {assets: {}};
     
-/**
- * @param {Asset} asset - calculate a URL for this asset.
- * @returns {string} a URL to download a project file.
- */
+
 function getProjectUrl(asset) {
     const assetIdParts = asset.assetId.split('.');
     const assetUrlParts = [PROJECT_SERVER, 'internalapi/project/', assetIdParts[0], '/get/'];
@@ -19,10 +16,7 @@ function getProjectUrl(asset) {
     return collecteyData.projectJSON = assetUrlParts.join('');
 };
     
-/**
- * @param {Asset} asset - calculate a URL for this asset.
- * @returns {string} a URL to download a project asset (PNG, WAV, etc.)
- */
+
 function getAssetUrl(asset) {
     const assetUrlParts = [
         ASSET_SERVER,
@@ -35,15 +29,10 @@ function getAssetUrl(asset) {
     return collecteyData.assets[asset.assetId] = assetUrlParts.join('');
 };
     
-/**
- * 
- * @param {*} projectId used for filename
- * @param {*} projectJson json associated to scratch project
- */
+
 function savetoZip(projectId, projectJson) {
     const zip = new JSZip();
     zip.file('project.json', projectJson);
-    
     zip.generateAsync({type:"blob"}).then(function (blob) { 
             saveAs(blob, projectId.concat('.zip'));                          
     }, function (err) {
@@ -52,19 +41,12 @@ function savetoZip(projectId, projectJson) {
     
     return projectId;    
 }
-    
-/**
- * 
- * @param {*} projectId id scratch project
- */
+
+
 function getJsonProject(projectId) {
-    // const vm = new window.NotVirtualMachine();
-    // const storage = new ScratchStorage();
-
+    
     const vm = new VirtualMachine();
-    // Scratch.vm = vm;
     const storage = new ScratchStorage();
-
 
     const AssetType = storage.AssetType;
     storage.addWebStore([AssetType.Project], getProjectUrl);
@@ -78,14 +60,9 @@ function getJsonProject(projectId) {
         })
         .then(() => {
             const project_json = vm.toJSON(); 
-            console.log("Success downloading project ", projectId);
-            console.log(project_json);    
-            project_id = savetoZip(projectId, project_json);
-            return;
+            return resolve(project_json);
         })
         .catch((err) => {
-            console.log("Error downloading project", projectId);
-            console.log(err);
             reject(Error(err));
             return;
         })

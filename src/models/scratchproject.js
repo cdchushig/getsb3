@@ -1,8 +1,16 @@
 import mongoose from 'mongoose';
 
-let scratchproject = new mongoose.Schema({
-    project_id: String,
-    release_date: String
+const Schema = mongoose.Schema;
+
+const ScratchprojectSchema = new Schema({
+    project_id: {
+        type: String,
+        required: true
+    },
+    release_date: {
+        type: Date,
+        required: true
+    }
 })
 
-module.exports = mongoose.model("ScratchProject", scratchproject);
+module.exports = mongoose.model("ScratchProject", ScratchprojectSchema);
