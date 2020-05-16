@@ -1,5 +1,6 @@
 const ASSET_SERVER = 'https://cdn.assets.scratch.mit.edu/';
-const PROJECT_SERVER = 'https://cdn.projects.scratch.mit.edu/';
+const PROJECT_SERVER_SB2 = 'https://cdn.projects.scratch.mit.edu/';
+const PROJECT_SERVER_SB3 = 'https://projects.scratch.mit.edu/';
 
 import VirtualMachine from 'scratch-vm';
 import ScratchStorage from 'scratch-storage';
@@ -7,9 +8,19 @@ import ScratchStorage from 'scratch-storage';
 const collecteyData = {assets: {}};
     
 
-function getProjectUrl(asset) {
+function getProjectUrlSb2(asset) {
     const assetIdParts = asset.assetId.split('.');
-    const assetUrlParts = [PROJECT_SERVER, 'internalapi/project/', assetIdParts[0], '/get/'];
+    const assetUrlParts = [PROJECT_SERVER_SB2, 'internalapi/project/', assetIdParts[0], '/get/'];
+    if (assetIdParts[1]) {
+        assetUrlParts.push(assetIdParts[1]);
+    }
+    return collecteyData.projectJSON = assetUrlParts.join('');
+};
+
+
+function getProjectUrlSb3(asset) {
+    const assetIdParts = asset.assetId.split('.');
+    const assetUrlParts = [PROJECT_SERVER_SB3, assetIdParts[0], '/get/'];
     if (assetIdParts[1]) {
         assetUrlParts.push(assetIdParts[1]);
     }
@@ -49,24 +60,29 @@ function getJsonProject(projectId) {
     const storage = new ScratchStorage();
 
     const AssetType = storage.AssetType;
-    storage.addWebStore([AssetType.Project], getProjectUrl);
+    storage.addWebStore([AssetType.Project], getProjectUrlSb2);
     storage.addWebStore([AssetType.ImageVector, AssetType.ImageBitmap, AssetType.Sound], getAssetUrl);
     vm.attachStorage(storage);
 
-    // return new Promise((resolve, reject) => {
     return storage.load(storage.AssetType.Project, projectId)
         .then(projectAsset => {
             return vm.loadProject(projectAsset.data);
         })
         .then(() => {
-            const project_json = vm.toJSON(); 
-            return project_json;
+            return vm.toJSON();
         })
         .catch((err) => {
-            reject(Error(err));
-            return;
+            storage.addWebStore([AssetType.Project], getProjectUrlSb3);
+            storage.addWebStore([AssetType.ImageVector, AssetType.ImageBitmap, AssetType.Sound], getAssetUrl);
+            vm.attachStorage(storage);
+            return storage.load(storage.AssetType.Project, projectId)
+            .then(projectAsset => {
+                return vm.loadProject(projectAsset.data);
+            })
+            .then(() => {
+                return vm.toJSON();;
+            })
     })
-      
 }
 
 module.exports = {getJsonProject};
