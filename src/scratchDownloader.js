@@ -41,14 +41,15 @@ function getAssetUrl(asset) {
 };
     
 
-function savetoZip(projectId, projectJson) {
-    const zip = new JSZip();
-    zip.file('project.json', projectJson);
-    zip.generateAsync({type:"blob"}).then(function (blob) { 
-            saveAs(blob, projectId.concat('.zip'));                          
-    }, function (err) {
-        console.log(err);
-    });
+function downloadJsonProject(projectId) {
+
+    // const zip = new JSZip();
+    // zip.file('project.json', projectJson);
+    // zip.generateAsync({type:"blob"}).then(function (blob) { 
+    //         saveAs(blob, projectId.concat('.zip'));                          
+    // }, function (err) {
+    //     console.log(err);
+    // });
     
     return projectId;    
 }
