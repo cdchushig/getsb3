@@ -1,38 +1,45 @@
-import {getJsonProject} from '../scratchDownloader.js';
+import ScratchProjectService from '../services/scratchproject';
+import JSZip from 'jszip';
 
 class ScratchProjectController {
 
   constructor() {
     this.projectid = 1;
+    this.scratchprojectService = new ScratchProjectService();
   }
 
   async get(req, res) {
     try {
       let projectId = req.params.projectid;
-      const projectJson = await getJsonProject(projectId.toString()); 
-      res.setHeader('Content-Type', 'application/json')
+      // const projectJson = await getJsonProject(projectId.toString()); 
+      const projectJson = await this.scratchprojectService.getJsonProject(projectId.toString()); 
+      res.setHeader('Content-Type', 'application/json');
       res.status(200).send(projectJson);
     } catch (err) {
       res.status(400).send(err.message);
     }
   }
 
-// router.get('/api/v1/projects/:projectid', async(req, res, next) => {
-//     try{
-//         let projectId = req.params.projectid;
+  async download(req, res) {
+    try {
+      let projectId = req.params.projectid;
+      const projectJson = await this.scratchprojectService.getJsonProject(projectId.toString()); 
+      
+      const zip = new JSZip();
+      zip.file('project.json', projectJson);
 
-//         getJsonProject(projectId.toString())
-//             .then((result) => {
-//                 return res.send(result)
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//         })
-    
-//     } catch(e) {
-//         res.status(500).send({message: 'Internal server error'})
-//     }
-// })
+      zip.generateAsync({ type: "nodebuffer"} )
+      .then(content => { 
+          res.setHeader("Content-Type", "application/zip");
+          res.send(content);
+      }).catch((err) =>  {
+          console.log('err');
+      })
+      
+    } catch (err) {
+      res.status(400).send(err.message);
+    }
+  }
 
     // async getById(req, res) {
     //   const {
