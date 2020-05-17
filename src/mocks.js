@@ -1,6 +1,6 @@
 export default [
     {
-        "projectid": 1111,
+        "projectid": 111,
         "targets": [
             {
                 "isStage": true,
