@@ -1,28 +1,27 @@
-'use strict';
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = void 0;
 
-var _express = require('express');
+var _express = _interopRequireDefault(require("express"));
 
-var _express2 = _interopRequireDefault(_express);
+var _api = _interopRequireDefault(require("./api"));
 
-var _api = require('./api');
+var _scratchproject = _interopRequireDefault(require("./scratchproject"));
 
-var _api2 = _interopRequireDefault(_api);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _scratchproject = require('./scratchproject');
+var router = _express["default"].Router();
 
-var _scratchproject2 = _interopRequireDefault(_scratchproject);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-const router = _express2.default.Router();
-
-router.use('/api', _api2.default);
-router.use('/', _scratchproject2.default);
-router.get('/', (req, res) => res.render('index'));
-
-exports.default = router;
+router.use('/api', _api["default"]);
+router.use('/', _scratchproject["default"]);
+router.get('/', function (req, res) {
+  return res.render('index');
+});
+var _default = router;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map
