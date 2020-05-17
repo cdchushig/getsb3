@@ -4,8 +4,13 @@ import config from 'config';
 import express from 'express';
 import bodyParser from 'body-parser';
 import routes from './routes';
+import path from 'path';
+
 
 const app = express();
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());

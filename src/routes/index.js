@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.use('/api', apiRoute);
 router.use('/', scratchprojectRoute);
-router.get('/', (req, res) => res.send('Hello World2!'));
+router.get('/', (req, res) => res.render('index'));
 
 export default router;

@@ -58,6 +58,7 @@
     "express": "^4.17.1",
     "jszip": "^3.4.0",
     "mongoose": "^5.9.14",
+    "pug": "^2.0.4",
     "scratch-parser": "^5.0.0"
   }
 }

@@ -1,0 +1,42 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        title getsb3
+        link(href='/css/bootstrap.min.css')
+        style(type='text/css').
+            a {color: #5d1ca2; 
+                text-decoration:none}
+
+            a:hover { color: #7600f1; }
+
+            ul {
+                list-style-type: none;
+            }
+
+            .div-center {
+                position: relative;
+                top: 25%;
+                left: 25%;
+                width: 50%;
+                height: 50%;
+                text-align: center;
+                font: 100% Helvetica, sans-serif;
+                left: float;
+            }
+    body
+        div(class='div-center')
+            h1 getsb3
+        div(class='div-center')
+            p Download sb3 files by project id. 
+            ul(class='ul.aa')
+                li: a(href='http://localhost:3003/340640594') getsb3.heroku.app.com/340640594
+                li: a(href='http://localhost:3003/api/340640594') getsb3.heroku.app.com/api/340640594
+        
+        div(class='div-center')
+
+        footer(class='div-center')
+            p 
+                | Made with 
+                span(style='color:red') &hearts; 
+                | by cdchushig
