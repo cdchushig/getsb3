@@ -2,7 +2,7 @@
   "name": "getsb3",
   "version": "1.0.0",
   "scripts": {
-    "build": "babel src -d dist --source-maps",
+    "build": "babel src -d dist --source-maps --copy-files",
     "serve": "NODE_ENV=production node dist/index.js",
     "start": "NODE_ENV=development babel-node src/index.js",
     "dev": "DEBUG=server:debug NODE_ENV=development nodemon src/index.js --exec babel-node",
