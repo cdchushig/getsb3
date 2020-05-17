@@ -1,6 +1,10 @@
-web:
-  build: .
-  volumes:
-    - "./volumes:/src/app"
-  ports:
-    - "3030:3000"
+version: '3'
+
+services:
+  getsb3:
+    build:
+      .
+    volumes:
+      - "./volumes:/src/app"
+    ports:
+      - "3000:3000"

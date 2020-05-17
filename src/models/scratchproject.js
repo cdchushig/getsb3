@@ -7,10 +7,13 @@ const ScratchprojectSchema = new Schema({
         type: String,
         required: true
     },
-    release_date: {
+    date_updated: {
         type: Date,
+        default: Date.now,
         required: true
     }
 })
 
-module.exports = mongoose.model("ScratchProject", ScratchprojectSchema);
+let ScratchProject = mongoose.model('ScratchProject', ScratchprojectSchema);
+
+export default ScratchProject;

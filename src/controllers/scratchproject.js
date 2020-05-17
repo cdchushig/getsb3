@@ -1,3 +1,4 @@
+import ScratchProject from '../models/scratchproject';
 import ScratchProjectService from '../services/scratchproject';
 import JSZip from 'jszip';
 
@@ -11,8 +12,8 @@ class ScratchProjectController {
   async get(req, res) {
     try {
       let projectId = req.params.projectid;
-      // const projectJson = await getJsonProject(projectId.toString()); 
       const projectJson = await this.scratchprojectService.getJsonProject(projectId.toString()); 
+      const newScratchProject = new ScratchProject(req.body.post);
       res.setHeader('Content-Type', 'application/json');
       res.status(200).send(projectJson);
     } catch (err) {
